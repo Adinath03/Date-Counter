@@ -20,39 +20,42 @@ function Counter() {
   const [step, setStep] = useState(0);
   const [count, setCount] = useState(0);
 
-  function handleNextStep() {
-    setStep((s) => s + 1);
+  function handleReset() {
+    setStep(0);
+    setCount(0);
   }
-
-  function handlePreviousStep() {
-    setStep((s) => s - 1);
-  }
-
-  function handleNextCount() {
-    setCount((s) => s + 1);
-  }
-
-  function handlePreviousCount() {
-    setCount((s) => s - 1);
-  }
-
   return (
     <>
       <div className="count">
-        <button onClick={handlePreviousStep}>-</button>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={step}
+          onChange={(e) => setStep(Number(e.target.value))}
+        />
         Step: {step}
-        <button onClick={handleNextStep}>+</button>
       </div>
       <div className="count">
-        <button onClick={handlePreviousCount}>-</button>
-        Counter: {count}
-        <button onClick={handleNextCount}>+</button>
+        <button onClick={() => setCount((c) => c - step)}>-</button>
+        <input
+          type="number"
+          value={count}
+          onChange={(e) => setCount(Number(e.target.value))}
+          placeholder={count}
+        />
+        <button onClick={() => setCount((c) => c + step)}>+</button>
       </div>
       <div className="count">
         <p>
           {count * step} days from Today is {calculateDate(count * step)}{" "}
         </p>
       </div>
+      {count != 0 && (
+        <div className="count">
+          <button onClick={handleReset}>Reset</button>
+        </div>
+      )}
     </>
   );
 }
